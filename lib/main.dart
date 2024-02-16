@@ -1,6 +1,5 @@
-// import 'package:fruit_app/core/utils/theme/theme.dart';
-import 'package:fruit_app/features/authentication/presentation/screen/onboarding.dart';
 import 'package:flutter/material.dart';
+import 'package:fruit_app/features/home/presentation/screen/home.dart';
 import 'package:get/get.dart';
 
 import 'core/utils/constants/text_theme.dart';
@@ -21,7 +20,7 @@ class MyApp extends StatelessWidget {
         // Add other theme properties as needed
       ),// Set this to false
 
-      home: OnBoardingScreen(),
+      home: HomeScreen(),
     );
   }
 }

@@ -33,21 +33,27 @@ dependencies:
 
 
   
-  
+  equatable: ^2.0.5
+
   cupertino_icons: ^1.0.2
   iconsax: ^0.0.8
   get: ^4.6.5
   get_storage: ^2.1.1
   dio: 5.4.0
   smooth_page_indicator: ^1.1.0
+
   flutter_native_splash: ^2.3.10
   intl: ^0.18.1
   logger: ^2.0.1
+
   url_launcher: ^6.1.12
   carousel_slider: 4.2.1
 
 
 dev_dependencies:
+  test: ^1.24.9
+  http_mock_adapter: ^0.6.1
+  mockito: ^5.4.4
   flutter_test:
     sdk: flutter
 
