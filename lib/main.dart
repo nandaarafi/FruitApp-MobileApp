@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fruit_app/features/home/presentation/screen/home.dart';
 import 'package:get/get.dart';
 
-import 'core/utils/constants/text_theme.dart';
+import 'features/navigatiobar/presentation/screen/navigation_bar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,12 +14,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        textTheme: FTextTheme.lightTextTheme,
-        // Add other theme properties as needed
-      ),// Set this to false
-
-      home: HomeScreen(),
+      title: 'Flutter Demo',
+      // theme: AppTheme.get(isLight: true),
+      // darkTheme: AppTheme.get(isLight: false),
+      home: NavigationMenu(),
+      // home: MyHomePage(title: 'Animated Navigation Bottom Bar'),
     );
   }
 }

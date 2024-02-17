@@ -18,7 +18,7 @@ class RemoteProductDataSourceImpl implements RemoteProductDataSource {
   Future<List<ProductDataModel>> productData() async {
     try {
       final response = await dio.get(
-        'https://65bf3116dcfcce42a6f3459e.mockapi.io/test-api/productdata',
+        '/productdata',
       );
 
       if (response.statusCode == 200) {

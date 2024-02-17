@@ -3,7 +3,7 @@ import 'package:fruit_app/core/utils/constants/colors.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../../../core/config/navigation_bar.dart';
+import '../../../navigatiobar/presentation/screen/navigation_bar.dart';
 import '../../../../core/utils/helper/helper_functions.dart';
 import '../controller/onboarding_controller.dart';
 import '../widgets/checkbox_theme.dart';
