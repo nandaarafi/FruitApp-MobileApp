@@ -11,3 +11,17 @@ class HomeScreenController extends GetxController {
   RxInt currentIndex = 0.obs;
 
 }
+
+class SearchController extends GetxController {
+  final TextEditingController textEditingController = TextEditingController();
+  final RxBool isSearchOpen = false.obs;
+
+  void openView() {
+    isSearchOpen.value = true;
+  }
+
+  void closeView(String selectedResult) {
+    isSearchOpen.value = false;
+    // Add your logic here to handle the selected result
+  }
+}

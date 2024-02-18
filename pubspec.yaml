@@ -81,7 +81,7 @@ flutter:
 
   assets:
     - assets/images/onboarding/
-    - lib/features/home/data/productdata.json
+#    - lib/features/home/data/productdata.json
 
   fonts:
     - family: Poppins

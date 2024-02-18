@@ -1,6 +1,7 @@
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
 import 'package:fruit_app/core/utils/constants/colors.dart';
+import 'package:fruit_app/core/utils/helper/helper_functions.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -35,9 +36,9 @@ class NavigationMenu extends StatelessWidget {
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         notchMargin: 8.0,
-        height: 100,
+        height: FHelperFunctions.screenHeight() * 0.12,
         child: SizedBox(
-          height: 80.0,
+          // height: 50.0,
           child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -87,12 +88,12 @@ class IconAnimationNav extends StatelessWidget {
           () => AnimatedCrossFade(
             duration: const Duration(milliseconds: 500),
             firstChild: IconButton(
-              icon: Icon(iconBefore, size: 36),
+              icon: Icon(iconBefore, size: 30),
               color: Colors.black87,
               onPressed: () => controller.toggleIcon(index),
             ),
             secondChild: IconButton(
-              icon: Icon(iconAfter, size: 36),
+              icon: Icon(iconAfter, size: 30),
               color: Colors.black87,
               onPressed: () => controller.toggleIcon(index),
             ),
@@ -106,6 +107,7 @@ class IconAnimationNav extends StatelessWidget {
             text,
             style: TextStyle(
                 fontFamily: 'Poppins',
+                fontSize: 14,
                 fontWeight: (controller.selectedIconIndex.value == index)
                     ? FontWeight.w600
                     : FontWeight.w100),

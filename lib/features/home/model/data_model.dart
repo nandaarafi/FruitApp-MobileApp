@@ -3,12 +3,14 @@ class ProductDataModel {
   String? image;
   String? title;
   String? subtitle;
+  String? price;
 
   ProductDataModel({
     this.id,
     this.image,
     this.title,
     this.subtitle,
+    this.price,
   });
 
   ProductDataModel.fromJson(Map<String, dynamic> json) {
@@ -16,5 +18,6 @@ class ProductDataModel {
     image = json['image'];
     title = json['title'];
     subtitle = json['subtitle'];
+    price = json['price'];
   }
 }

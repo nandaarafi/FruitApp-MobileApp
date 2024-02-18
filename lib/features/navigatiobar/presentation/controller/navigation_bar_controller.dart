@@ -22,7 +22,7 @@ class NavigationController extends GetxController {
 
   void toggleIcon(int index) {
     if (selectedIconIndex.value == index) {
-      selectedIconIndex.value = 0;
+      selectedIconIndex.value = index;
     } else {
       selectedIconIndex.value = index;
     }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fruit_app/core/theme/theme.dart';
+import 'package:fruit_app/features/authentication/presentation/screen/onboarding.dart';
 import 'package:get/get.dart';
 
 import 'features/navigatiobar/presentation/screen/navigation_bar.dart';
@@ -15,9 +17,13 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      // theme: AppTheme.get(isLight: true),
+      themeMode: ThemeMode.system,
+      // theme: ThemeData(
+      //   primaryColor: Colors.white,
+      // ),
+      theme: FTheme.lightTheme,
       // darkTheme: AppTheme.get(isLight: false),
-      home: NavigationMenu(),
+      home: OnBoardingScreen(),
       // home: MyHomePage(title: 'Animated Navigation Bottom Bar'),
     );
   }

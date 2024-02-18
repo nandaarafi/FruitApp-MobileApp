@@ -7,9 +7,9 @@ class FTextTheme {
     headlineLarge: TextStyle().copyWith(
         fontSize: 32.0, fontWeight: FontWeight.bold, color: Colors.black),
     headlineMedium: TextStyle().copyWith(
-        fontSize: 24.0, fontWeight: FontWeight.w600, color: Colors.black),
+        fontSize: 28.0, fontWeight: FontWeight.bold, color: Colors.black),
     headlineSmall: TextStyle().copyWith(
-        fontSize: 18.0, fontWeight: FontWeight.w600, color: Colors.black),
+        fontSize: 22.0, fontWeight: FontWeight.w600, color: Colors.black),
     titleLarge: TextStyle().copyWith(
         fontSize: 16.0, fontWeight: FontWeight.w600, color: Colors.black),
     titleMedium: TextStyle().copyWith(
@@ -29,6 +29,6 @@ class FTextTheme {
     labelMedium: TextStyle().copyWith(
         fontSize: 12.0,
         fontWeight: FontWeight.normal,
-        color: Colors.black.withOpacity(0.5)),
+        color: Colors.black.withOpacity(0.8)),
   );
 }
