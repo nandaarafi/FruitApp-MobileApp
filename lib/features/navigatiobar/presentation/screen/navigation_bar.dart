@@ -86,6 +86,7 @@ class IconAnimationNav extends StatelessWidget {
       children: [
         Obx(
           () => AnimatedCrossFade(
+
             duration: const Duration(milliseconds: 500),
             firstChild: IconButton(
               icon: Icon(iconBefore, size: 30),

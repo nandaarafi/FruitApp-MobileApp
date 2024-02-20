@@ -12,16 +12,19 @@ class HomeScreenController extends GetxController {
 
 }
 
-class SearchController extends GetxController {
-  final TextEditingController textEditingController = TextEditingController();
-  final RxBool isSearchOpen = false.obs;
-
-  void openView() {
-    isSearchOpen.value = true;
-  }
-
-  void closeView(String selectedResult) {
-    isSearchOpen.value = false;
-    // Add your logic here to handle the selected result
-  }
+// class SearchOwnController extends GetxController {
+//   final TextEditingController textEditingController = TextEditingController();
+//   final RxBool isSearchOpen = false.obs;
+//
+//   void openView() {
+//     isSearchOpen.value = true;
+//   }
+//
+//   void closeView(String selectedResult) {
+//     isSearchOpen.value = false;
+//     // Add your logic here to handle the selected result
+//   }
+// }
+class SliderController extends GetxController {
+  RxDouble currentSliderValue = 0.0.obs;
 }

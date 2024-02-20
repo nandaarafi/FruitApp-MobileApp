@@ -30,3 +30,12 @@ class UnauthorisedException implements Exception {
   }
 }
 
+class DataViewException extends Equatable implements Exception {
+  const DataViewException({required this.message, /*required this.statusCode*/});
+
+  final String message;
+  // final String statusCode;
+
+  @override
+  List<dynamic> get props => [message];
+}

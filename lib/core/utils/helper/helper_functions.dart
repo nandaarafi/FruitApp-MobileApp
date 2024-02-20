@@ -21,4 +21,10 @@ class FHelperFunctions {
         .size
         .width;
   }
+  static double keyboardVisibility() {
+    return MediaQuery
+        .of(Get.context!)
+        .viewInsets.bottom;
+  }
+
 }

@@ -1,5 +1,6 @@
 import 'dio_config.dart';
 import 'package:fruit_app/features/home/model/data_model.dart';
+import 'dart:convert';
 
 abstract class RemoteProductDataSource {
   const RemoteProductDataSource();
@@ -21,13 +22,21 @@ class RemoteProductDataSourceImpl implements RemoteProductDataSource {
         '/productdata',
       );
 
+      print('Dio Response: $response');
+
       if (response.statusCode == 200) {
-        final List<dynamic> list = response.data;
-        return list.map((e) => ProductDataModel.fromJson(e)).toList();
+        final List<dynamic>? list = response.data as List<dynamic>?;
+
+        if (list != null) {
+          return list.map((e) => ProductDataModel.fromJson(e)).toList();
+        } else {
+          throw Exception('Received null data from the API');
+        }
       } else {
-        throw Exception('Failed to load data from the API');
+        throw Exception('Failed to load data from the API. Status code: ${response.statusCode}');
       }
     } catch (e) {
+      print('Dio Error: $e');
       throw Exception('Failed to fetch data: $e');
     }
   }

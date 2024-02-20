@@ -1,6 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:fruit_app/core/error/exceptions.dart';
 import 'package:fruit_app/core/utils/constants/colors.dart';
 import 'package:fruit_app/features/home/data/remote_data_source.dart';
+import 'package:fruit_app/features/home/presentation/controller/home_controller.dart';
+import 'package:fruit_app/features/home/presentation/screen/detail_product.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:get/get.dart';
 import '../../../../core/utils/helper/helper_functions.dart';
@@ -19,14 +24,8 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // const SizedBox(height: 1),
               SearchBarApp(),
               const SizedBox(height: 20),
-              // Text(
-              //   "Product",
-              //   style: Theme.of(context).textTheme.titleLarge,
-              //   textAlign: TextAlign.left,
-              // ),
               ProductHeader(onPressed: () {}),
               SizedBox(height: 16),
               Text(
@@ -44,74 +43,6 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class SearchBarApp extends StatefulWidget {
-  const SearchBarApp({super.key});
-
-  @override
-  State<SearchBarApp> createState() => _SearchBarAppState();
-}
-
-class _SearchBarAppState extends State<SearchBarApp> {
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: SizedBox(
-        height: 43,
-        child: SearchAnchor(
-          builder: (BuildContext context, SearchController controller) {
-            return SearchBar(
-              backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 255, 255, 255)),
-              textStyle: MaterialStateProperty.all(Theme.of(context).textTheme.bodySmall),
-              shape: MaterialStateProperty.all(const ContinuousRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20))
-              )),
-              controller: controller,
-              onTap: () {
-                controller.openView();
-              },
-              onChanged: (_) {
-                controller.openView();
-              },
-              leading: const Icon(Icons.search),
-              trailing: <Widget>[
-                // Add icon in the right search bar
-              ],
-              // Set border radius and hint
-              // decoration: InputDecoration(
-              //   contentPadding: EdgeInsets.symmetric(vertical: 12.0),
-              //   border: OutlineInputBorder(
-              //     borderRadius: BorderRadius.circular(20.0), // Set border radius
-              //   ),
-              hintText: 'Search fruits, nuts, and more', // Set hint text
-              // fillColor: MaterialStateProperty.resolveWith((states) {
-              //   // Set background color
-              //   if (states.contains(MaterialState.disabled)) {
-              //     return Colors.grey; // You can change this to your desired disabled color
-              //   }
-              //   return Colors.white; // Default color
-              // }),
-            );
-          },
-          suggestionsBuilder: (BuildContext context,
-              SearchController controller) {
-            return List<ListTile>.generate(5, (int index) {
-              final String item = 'item $index';
-              return ListTile(
-                title: Text(item),
-                onTap: () {
-                  controller.closeView(item);
-                },
-              );
-            });
-          },
-        ),
-      ),
-    );
-  }
-}
-
 class GridViewVertical extends StatelessWidget {
   GridViewVertical({
     super.key,
@@ -121,6 +52,8 @@ class GridViewVertical extends StatelessWidget {
   final RemoteProductDataSourceImpl _remoteProductDataSourceImpl =
       RemoteProductDataSourceImpl();
   final VoidCallback onPressed;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +84,9 @@ class GridViewVertical extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 var item = latestProduct[index];
                 return GestureDetector(
-                  onTap: onPressed,
+                  onTap: () {
+                    buildShowModalBottomSheet(context, item);
+                  },
                   child: Container(
                     margin: EdgeInsets.only(right: 6, left: 6, bottom: 12),
                     padding: EdgeInsets.only(bottom: 15),
@@ -172,7 +107,6 @@ class GridViewVertical extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Container(
-
                             width: FHelperFunctions.screenWidth(),
                             clipBehavior: Clip.antiAlias,
                             decoration: BoxDecoration(
@@ -187,12 +121,11 @@ class GridViewVertical extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 10),
-                        Text(item.title.toString(),
-                        style: Theme.of(context).textTheme.bodyLarge),
+                        Text(item.fruit.toString(),
+                            style: Theme.of(context).textTheme.bodyLarge),
                         SizedBox(height: 7),
                         Text(item.price.toString(),
-                        style: Theme.of(context).textTheme.labelMedium),
-
+                            style: Theme.of(context).textTheme.labelMedium),
                       ],
                     ),
                   ),
@@ -208,6 +141,247 @@ class GridViewVertical extends StatelessWidget {
       },
     );
     // );
+  }
+
+  Future<dynamic> buildShowModalBottomSheet(
+      BuildContext context, ProductDataModel item) {
+    final SliderController sliderController = Get.put(SliderController());
+
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      useSafeArea: true,
+      context: context,
+      builder: (BuildContext context) => DraggableScrollableSheet(
+        initialChildSize: 0.75,
+        minChildSize: 0.2,
+        maxChildSize: 0.75,
+        expand: false,
+          builder:  (_, BuildContext) => SingleChildScrollView(
+            child: Container(
+            color: Colors.white,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                      Container(
+                        width: FHelperFunctions.screenWidth(),
+                        height: FHelperFunctions.screenHeight() * 0.3,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                       image: DecorationImage(
+                image: NetworkImage(
+                            item.image.toString(),
+                          ),
+                            fit: BoxFit.cover,
+                        ),
+                          ),
+                    ),
+                    // ),
+                    SizedBox(height: 7.0),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(item.fruit.toString(), style: Theme.of(context).textTheme.headlineSmall),
+                        SizedBox(height: 15),
+                        Text('${item.details?.description ?? "null"}', style: Theme.of(context).textTheme.labelLarge),
+                        SizedBox(height:15),
+                        Text("Details", style: Theme.of(context).textTheme.headlineSmall),
+                        SizedBox(height: 20),
+                        Divider(height:5),
+                        SizedBox(height: 20),
+                        ContainerRowText(
+                            leftText: "Expiration Date",
+                            rightText: item.details!.expired ?? "null"),
+                      SizedBox(height: 20),
+                      Divider(height:5),
+                      SizedBox(height: 20),
+                        ContainerRowText(
+                            leftText: "Price",
+                            rightText: item.price.toString()
+                        ),
+                        SizedBox(height: 20),
+                        Divider(height: 5),
+                        SizedBox(height: 20),
+                        ContainerRowText(
+                            leftText: "Nutritional Facts",
+                            rightText: item.details!.nutrision ?? "null"
+                        ),
+                        SizedBox(height: 25),
+                        Container(
+                          // padding: EdgeInsets.only(left: 15,right: 15 ),
+                          width: double.infinity,
+                          height: 40,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                            Text("Quantity",
+                            style: Theme.of(context).textTheme.titleMedium),
+
+                            Obx(() => Text(sliderController.currentSliderValue.value.toInt().toString(),
+                                  style: TextStyle(fontSize: 20))),
+                            ],
+                          ),
+                        ),
+                        Obx(() => Slider(
+                        activeColor: Colors.black,
+                        value: sliderController.currentSliderValue.value,
+                        max: 3,
+                        divisions: 3,
+                        onChanged: (double value) {
+                        sliderController.currentSliderValue.value = value;
+                        },
+                        ),),
+                      SizedBox(height: 20),
+                        Container(
+                          padding: EdgeInsets.only(left: 15, bottom: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ButtonCartShop(
+                                onPressed: (){},
+                                text: "Add to Cart",
+                                color: MaterialStateProperty.all(Color(0xFF92F424))),
+                              SizedBox(width: 10),
+                              ButtonCartShop(
+                                onPressed: onPressed,
+                                text: "Buy Now",
+                                color: MaterialStateProperty.all(Colors.grey.withOpacity(0.3))
+                              ),
+                            ],
+                          ),
+                        )
+                      ]
+                    ),
+                    ),
+                  ],
+                ),
+            ),
+          ),
+      ),
+        );
+  }
+}
+
+class ButtonCartShop extends StatelessWidget {
+  ButtonCartShop({
+    Key? key,
+    required this.onPressed,
+    required this.text,
+    required this.color,
+  });
+
+  final VoidCallback onPressed;
+  final String text;
+  final MaterialStateProperty<Color> color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: TextButton(
+        onPressed: onPressed,
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0)
+            )
+          ),
+          backgroundColor: color,
+        ),
+        child: Text(
+          text,
+          style: Theme.of(context).textTheme.titleSmall,
+        ),
+      ),
+    );
+  }
+}
+
+class ContainerRowText extends StatelessWidget {
+  const ContainerRowText({
+    super.key,
+    required this.leftText,
+    required this.rightText
+  });
+
+  final String leftText;
+  final String rightText;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      // Conta
+      children: [
+        Container(
+        width: FHelperFunctions.screenWidth() * 0.2,
+        child: Text(leftText, style: Theme.of(context).textTheme.labelMedium),
+            ),
+        SizedBox(width: FHelperFunctions.screenWidth() * 0.05),
+        Container(
+            width: FHelperFunctions.screenWidth() * 0.7,
+            child: Text(rightText,
+            style: Theme.of(context).textTheme.labelLarge)),
+            ],
+    );
+  }
+}
+
+class SearchBarApp extends StatefulWidget {
+  const SearchBarApp({super.key});
+
+  @override
+  State<SearchBarApp> createState() => _SearchBarAppState();
+}
+
+class _SearchBarAppState extends State<SearchBarApp> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: SizedBox(
+        height: 43,
+        child: SearchAnchor(
+          builder: (BuildContext context, SearchController controller) {
+            return SearchBar(
+
+              backgroundColor:
+                  MaterialStateProperty.all(Color.fromARGB(255, 255, 255, 255)),
+              textStyle: MaterialStateProperty.all(
+                  Theme.of(context).textTheme.bodySmall),
+              shape: MaterialStateProperty.all(const ContinuousRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20)))),
+              controller: controller,
+              onTap: () {
+                controller.openView();
+              },
+              onChanged: (_) {
+                controller.openView();
+              },
+              leading: const Icon(Icons.search),
+              trailing: <Widget>[
+                // Add icon in the right search bar
+              ],
+              hintText: 'Search fruits, nuts, and more', // Set hint text
+            );
+          },
+          suggestionsBuilder:
+              (BuildContext context, SearchController controller) {
+            return List<ListTile>.generate(5, (int index) {
+              final String item = 'item $index';
+              return ListTile(
+                title: Text(item),
+                onTap: () {
+                  controller.closeView(item);
+                  FocusScope.of(context).unfocus();
+
+                },
+              );
+            });
+          },
+        ),
+      ),
+    );
   }
 }
 
@@ -290,17 +464,9 @@ class ProductHeader extends StatelessWidget {
                                 Container(
                                   width: FHelperFunctions.screenWidth() * 0.92,
                                   height: FHelperFunctions.screenHeight() * 0.27,
-padding: EdgeInsets.only(bottom: 8),
+                                  padding: EdgeInsets.only(bottom: 8),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(6.0),
-                                    boxShadow: [
-                                      // BoxShadow(
-                                      //   color: Colors.black.withOpacity(0.2),
-                                      //   spreadRadius: 2,
-                                      //   blurRadius: 5,
-                                      //   offset: Offset(0, 3),
-                                      // ),
-                                    ],
                                   ),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(6.0),
@@ -314,12 +480,14 @@ padding: EdgeInsets.only(bottom: 8),
                                 ),
                                 SizedBox(height: 6),
                                 Text(
-                                  item.title.toString(),
-                                  style: Theme.of(context).textTheme.headlineSmall,
+                                  item.fruit.toString(),
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
                                 ),
                                 SizedBox(height: 5),
                                 Text(
-                                  item.subtitle.toString(),
+                                    item.home?.subtitle ?? "null",
+                                  // item.home != null ? item.home!.subtitle.toString() : 'No subtitle available',
                                   style: Theme.of(context).textTheme.bodySmall,
                                 ),
                               ],
