@@ -10,6 +10,8 @@ import 'package:iconsax/iconsax.dart';
 import 'package:get/get.dart';
 import '../../../../core/utils/helper/helper_functions.dart';
 import '../../model/data_model.dart';
+import '../widgets/app_bar.dart';
+import '../widgets/search_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -17,14 +19,15 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context),
+      appBar: FAppBar(title: Text("Fruitful"), showBackArrow: false),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.all(8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SearchBarApp(),
+              SizedBox(height: 16),
+              SearchBarApp(text: "Search fruits, nuts, and more", padding: EdgeInsets.symmetric(horizontal: 10)),
               const SizedBox(height: 20),
               ProductHeader(onPressed: () {}),
               SizedBox(height: 16),
@@ -242,12 +245,12 @@ class GridViewVertical extends StatelessWidget {
                               ButtonCartShop(
                                 onPressed: (){},
                                 text: "Add to Cart",
-                                color: MaterialStateProperty.all(Color(0xFF92F424))),
+                                color: MaterialStateProperty.all(FColors.buttonPrimary)),
                               SizedBox(width: 10),
                               ButtonCartShop(
                                 onPressed: onPressed,
                                 text: "Buy Now",
-                                color: MaterialStateProperty.all(Colors.grey.withOpacity(0.3))
+                                color: MaterialStateProperty.all(FColors.buttonSecondary)
                               ),
                             ],
                           ),
@@ -315,7 +318,7 @@ class ContainerRowText extends StatelessWidget {
       children: [
         Container(
         width: FHelperFunctions.screenWidth() * 0.2,
-        child: Text(leftText, style: Theme.of(context).textTheme.labelMedium),
+        child: Text(leftText, style: Theme.of(context).textTheme.labelSmall),
             ),
         SizedBox(width: FHelperFunctions.screenWidth() * 0.05),
         Container(
@@ -327,86 +330,10 @@ class ContainerRowText extends StatelessWidget {
   }
 }
 
-class SearchBarApp extends StatefulWidget {
-  const SearchBarApp({super.key});
 
-  @override
-  State<SearchBarApp> createState() => _SearchBarAppState();
-}
 
-class _SearchBarAppState extends State<SearchBarApp> {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: SizedBox(
-        height: 43,
-        child: SearchAnchor(
-          builder: (BuildContext context, SearchController controller) {
-            return SearchBar(
 
-              backgroundColor:
-                  MaterialStateProperty.all(Color.fromARGB(255, 255, 255, 255)),
-              textStyle: MaterialStateProperty.all(
-                  Theme.of(context).textTheme.bodySmall),
-              shape: MaterialStateProperty.all(const ContinuousRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20)))),
-              controller: controller,
-              onTap: () {
-                controller.openView();
-              },
-              onChanged: (_) {
-                controller.openView();
-              },
-              leading: const Icon(Icons.search),
-              trailing: <Widget>[
-                // Add icon in the right search bar
-              ],
-              hintText: 'Search fruits, nuts, and more', // Set hint text
-            );
-          },
-          suggestionsBuilder:
-              (BuildContext context, SearchController controller) {
-            return List<ListTile>.generate(5, (int index) {
-              final String item = 'item $index';
-              return ListTile(
-                title: Text(item),
-                onTap: () {
-                  controller.closeView(item);
-                  FocusScope.of(context).unfocus();
 
-                },
-              );
-            });
-          },
-        ),
-      ),
-    );
-  }
-}
-
-AppBar buildAppBar(BuildContext context) {
-  return AppBar(
-    elevation: 0.0,
-    title: Text("Fruitful"),
-    // style: Theme.of(context).textTheme.headlineLarge,),
-    leading: Container(),
-    leadingWidth: 0.0,
-    titleTextStyle: Theme.of(context).textTheme.headlineMedium,
-    actions: [
-      Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Badge(
-          label: const Text(
-            "4",
-            style: TextStyle(color: FColors.white),
-          ),
-          child: const Icon(Iconsax.notification, size: 32),
-        ),
-      ),
-    ],
-  );
-}
 
 class ProductHeader extends StatelessWidget {
   ProductHeader({super.key, required this.onPressed});
@@ -488,7 +415,7 @@ class ProductHeader extends StatelessWidget {
                                 Text(
                                     item.home?.subtitle ?? "null",
                                   // item.home != null ? item.home!.subtitle.toString() : 'No subtitle available',
-                                  style: Theme.of(context).textTheme.bodySmall,
+                                  style: Theme.of(context).textTheme.bodyMedium,
                                 ),
                               ],
                             ),
